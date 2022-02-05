@@ -1,0 +1,23 @@
+.logOut{
+    width:100%;
+    margin-right:20px;
+}
+.userimg{
+    border-radius: 45px;
+}
+body{
+    font-family: 'Monaco';
+}
+.signOuthover{
+    background:linear-gradient(to bottom, #141b29, #0c111b 300px);
+    color:white;
+    height: 40px;
+    width: 70px;
+    transform: translate(-11px,-9px);
+    padding-left: 8px;
+    border-radius: 8px;
+    visibility:hidden;
+}
+.visibleClass:hover{
+    visibility: visible;
+}

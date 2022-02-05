@@ -1,28 +1,81 @@
 import styled from 'styled-components';
 import React from 'react';
+import {useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {auth,provider} from './Firebase.js';
+import {useDispatch,useSelector} from 'react-redux';
+import {signInWithPopup} from 'firebase/auth';
+import {setLoginUserDetails,setSignOutState} from './store/userSlice';
+import {Link} from 'react-router-dom';
 const Header = (props) => {
+    const history = useNavigate();
+    const dispatch = useDispatch();
+    const username = useSelector(state => state.user.name);
+    const userphoto = useSelector(state => state.user.photo);
+    useEffect(() => {
+        auth.onAuthStateChanged(async (user) => {
+            if(user){
+                setUser(user);
+                history('/home');
+            }
+        })
+    },[username]
+    );
     const handleAuth = () => {
-        console.log('Trying to login');
+        signInWithPopup(auth,provider).then(result => {
+            setUser(result.user);
+            console.log(result);
+            console.log('username : ',username);
+        }).catch(err => {console.log("An error is faced : " + err)});
+    }
+    const signOut = () => {
+        console.log('Signing Out see you again');
+        const p = auth.signOut();
+        p.then(() => {
+            dispatch( setSignOutState() );
+            history('/');
+        });
+    }
+    const setUser = (user) => {
+        dispatch(
+            setLoginUserDetails({
+                name: user.displayName,
+                email: user.email,
+                photo: user.photoURL
+            }
+            )
+        )
     }
     return (
     <Nav>
     <img src = "logo.svg"></img>
+    {username ?
+    <div className="logOut">
+    {console.log('suppose to be displayed' , username)}
     <NavMenu>
+    <NavOptions>
     <a href = '' alt = ''><img src="home-icon.svg"></img><span>HOME</span></a>
     <a href = '' alt = ''><img src = 'search-icon.svg'></img><span>SEARCH</span></a>
     <a href = '' alt = ''><img src='watchlist-icon.svg'></img><span>WATCHLIST</span></a>
     <a href = '' alt = ''><img src = 'original-icon.svg'></img><span>ORIGINALS</span></a>
     <a href = '' alt = ''><img src = 'movie-icon.svg'></img><span>MOVIES</span></a>
     <a href = '' alt = ''><img src = 'series-icon.svg'></img><span>SERIES</span></a>
-    </NavMenu>
-    <Login onClick = {handleAuth}>LOGIN</Login>
+    </NavOptions>
+    <SignOut>
+        <img className = "userimg " src = {userphoto} alt ={username} onClick={signOut}/>
+        <div className = "signOuthover" onClick = {signOut}>SignOut</div>
+    </SignOut>
+    </NavMenu>    
+    </div>:
+    <Login onClick = {handleAuth} className="logOut">LOGIN</Login>
+    }
     </Nav>
     )
 }
 const Nav = styled.nav`
     color:white;
     display:flex;
-    height:80px;
+    height:60px;
     z-index:7;
     position:fixed;
     background:linear-gradient(to bottom, #141b29, #0c111b 300px);
@@ -72,9 +125,6 @@ const NavMenu = styled.div`
         visibility:visible;
     }
     }
-    @media (max-width:600px){
-        display:none;
-    }
 `;
 const Login = styled.a`
     display:flex;
@@ -87,11 +137,29 @@ const Login = styled.a`
     height:30px;
     border-radius:5px;
     justify-content:center;
-    margin-right:10px;
     transition:1s;
     &:hover{
         background:linear-gradient(to bottom,white,white);
         color:black;
+    }
+`;
+const SignOut = styled.div`
+    height:50px;
+    width:50px;
+    margin-left:auto;
+    &:hover{
+        div{
+            visibility:visible;
+        }
+    }
+`;
+const NavOptions = styled.div`
+    display:flex;
+    span{
+        margin-top:4px;
+    }
+    @media (max-width:600px){
+        display:none;
     }
 `;
 export default Header;
