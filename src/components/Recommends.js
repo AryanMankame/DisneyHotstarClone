@@ -3,12 +3,10 @@ import React  from 'react';
 import { useSelector } from 'react-redux';
 import {Link} from 'react-router-dom';
 const Recommends = (props) => {
-    console.log(props);
     let cardList = useSelector(state => state.movie.recommend);
     let cards = [];
     if(cardList != null){
     for(let i = 0; i < cardList.length; i++) {
-        console.log('recommend ===>',cardList[i]);
         cards = [...cards,
             <Wrap key = {i} onClick={() => props.onMovieClick({...cardList[i]})}>
                 <Link to = {'/details/'+cardList[i].id}>
@@ -18,7 +16,7 @@ const Recommends = (props) => {
         ];
     }
     }
-    console.log("The data inside the props ========> ",cardList);
+
     return(
         <Container>
             <h4>Recommended for you</h4>

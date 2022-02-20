@@ -18,7 +18,7 @@ const styles = {
     transform:'translateY(170px)',
 }
 const Home = (props) => {
-    const userName = useSelector(state => {console.log(state); return state.user.name});
+    const userName = useSelector(state => {return state.user.name});
     let recommends = [];
     let newDisney = [];
     let original = [];
@@ -27,7 +27,6 @@ const Home = (props) => {
     useEffect(async () => {
         const docRef = collection(db,'movies');
         const querySnapshot = await getDocs(docRef);
-        console.log('The Data inside the document is ', recommends,'\n',newDisney,'\n',original,'\n',trending);
         querySnapshot.docs.forEach((doc) => {
             const checktype = doc.data().type;
             switch(checktype){
@@ -69,7 +68,9 @@ const Home = (props) => {
             subTitle: data.subTitle,
             title: data.title,
             titleImg: data.titleImg,
-            type: data.type
+            type: data.type,
+            trailerLink: data.trailerLink,
+            clipLink: data.clipLink
         }))
     }
     return(

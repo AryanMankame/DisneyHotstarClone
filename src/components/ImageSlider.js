@@ -89,6 +89,10 @@ const Wrap = styled.div`
         padding: 4px;
         img{
             width:100%;
+            @media (max-width:700px) and (orientation: portrait){
+                //transform:scale(2);
+                height:25vh;
+            }
             padding:4px;
         }
         &:hover{

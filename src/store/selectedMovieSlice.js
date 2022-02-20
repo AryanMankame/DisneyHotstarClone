@@ -8,6 +8,8 @@ const initialState = {
    title: '',
    titleImg: '',
    type: '',
+   trailerLink:"",
+   clipLink:""
 }
 const selectedMovieSlice = createSlice({
     name:'selectedMovie',
@@ -22,6 +24,8 @@ const selectedMovieSlice = createSlice({
             state.title = action.payload.title;
             state.titleImg = action.payload.titleImg;
             state.type = action.payload.type;
+            state.trailerLink = action.payload.trailerLink;
+            state.clipLink = action.payload.clipLink;
         }
     }
 })

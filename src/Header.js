@@ -24,12 +24,9 @@ const Header = (props) => {
     const handleAuth = () => {
         signInWithPopup(auth,provider).then(result => {
             setUser(result.user);
-            console.log(result);
-            console.log('username : ',username);
         }).catch(err => {console.log("An error is faced : " + err)});
     }
     const signOut = () => {
-        console.log('Signing Out see you again');
         const p = auth.signOut();
         p.then(() => {
             dispatch( setSignOutState() );
@@ -46,20 +43,22 @@ const Header = (props) => {
             )
         )
     }
+    const searchMovie = () => {
+        
+    }
     return (
     <Nav>
     <img src = "logo.svg"></img>
     {username ?
     <div className="logOut">
-    {console.log('suppose to be displayed' , username)}
     <NavMenu>
     <NavOptions>
-    <a href = '' alt = ''><img src="home-icon.svg"></img><span>HOME</span></a>
-    <a href = '' alt = ''><img src = 'search-icon.svg'></img><span>SEARCH</span></a>
-    <a href = '' alt = ''><img src='watchlist-icon.svg'></img><span>WATCHLIST</span></a>
-    <a href = '' alt = ''><img src = 'original-icon.svg'></img><span>ORIGINALS</span></a>
-    <a href = '' alt = ''><img src = 'movie-icon.svg'></img><span>MOVIES</span></a>
-    <a href = '' alt = ''><img src = 'series-icon.svg'></img><span>SERIES</span></a>
+    <a href = '' alt = '' id="homeIcon"><img src="home-icon.svg"></img><span>HOME</span></a>
+    <Link to = "/search" ><a href = '' alt = '' id="searchIcon"><img src = 'search-icon.svg'></img><span>SEARCH</span></a></Link>
+    <Link to = "/watchlist" ><a href = '' alt = '' id = "watchlistIcon"><img src='watchlist-icon.svg'></img><span>WATCHLIST</span></a></Link>
+    <a href = '' alt = '' id="originalIcon"><img src = 'original-icon.svg'></img><span>ORIGINALS</span></a>
+    <a href = '' alt = '' id="movieIcon"><img src = 'movie-icon.svg'></img><span>MOVIES</span></a>
+    <a href = '' alt = '' id="seriesIcon"><img src = 'series-icon.svg'></img><span>SERIES</span></a>
     </NavOptions>
     <SignOut>
         <img className = "userimg " src = {userphoto} alt ={username} onClick={signOut}/>
@@ -158,8 +157,18 @@ const NavOptions = styled.div`
     span{
         margin-top:4px;
     }
-    @media (max-width:600px){
-        display:none;
+    @media (max-width:800px){
+       a{
+           padding:0px;
+           font-size:x-small;
+           img{
+               height:15px;
+               width:15px;
+           }
+       }
+       #movieIcon,#originalIcon,#seriesIcon{
+           display:none;
+       }
     }
 `;
 export default Header;
