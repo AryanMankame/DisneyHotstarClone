@@ -43,9 +43,7 @@ const Header = (props) => {
             )
         )
     }
-    const searchMovie = () => {
-        
-    }
+    
     return (
     <Nav>
     <img src = "logo.svg"></img>
